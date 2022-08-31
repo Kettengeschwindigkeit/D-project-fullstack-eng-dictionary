@@ -3,18 +3,21 @@ import { Route, Routes } from "react-router-dom"
 import { ICategory, IDataItem } from "../models"
 import { Items } from "../components/Items"
 import { Navbar } from "../components/Navbar"
+import { useSearchItemsQuery } from "../store/items/items.api"
 
 interface MainPageProps {
   categories: ICategory[]
-  data: IDataItem[]
+  items: IDataItem[]
 }
 
-export function MainPage({ categories, data }: MainPageProps) {
+export function MainPage({ categories, items }: MainPageProps) {
+  const {data, isError, isLoading} = useSearchItemsQuery('vladilen')
+  
   return (
     <ul>
       <Navbar categories={categories} />
       <Routes>
-        {data.map(item => <Route path={`/${item.title}`} element={<Items data={item.content} />} key={item.id + Date.now()} />)}
+        {items.map(item => <Route path={`/${item.title}`} element={<Items items={item.content} />} key={item.id + Date.now()} />)}
       </Routes>
     </ul>
   )

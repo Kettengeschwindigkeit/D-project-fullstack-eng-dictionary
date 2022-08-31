@@ -2,14 +2,14 @@ import React from "react";
 import { IItem } from "../models";
 
 interface ItemProps {
-    data: IItem[]
+    items: IItem[]
 }
 
-export function Items({ data }: ItemProps) {
+export function Items({ items }: ItemProps) {
 
     return (
         <ul>
-            {data.map(item => <li key={item.id}>{item.term} : {item.translate}</li>)}
+            {items.map(item => <li key={item.id}>{item.term} : {item.translate}</li>)}
         </ul>
     )
 }

@@ -24,7 +24,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path='/*' element={<MainPage categories={categories} data={data} />} />
+        <Route path='/*' element={<MainPage categories={categories} items={data} />} />
         <Route path='/auth' element={<AuthPage />} />
       </Routes>
       <Footer />
