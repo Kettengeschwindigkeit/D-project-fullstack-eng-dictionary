@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import axios from 'axios';
 import './App.css';
-
-const Header = () => <h1>Header</h1>
-const MainContent = () => <h1>Main Content</h1>
-const Footer = () => <h1>Footer</h1>
+import { categories } from './data/data';
+import { AuthPage } from './pages/AuthPage';
+import { MainPage } from './pages/MainPage';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 
 function App() {
+  const [data, setData] = useState([])
+
+  async function fetchData() {
+    const response = await axios.get('http://localhost:5000')
+    setData(response.data)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <>
       <Header />
-      <MainContent />
+      <Routes>
+        <Route path='/*' element={<MainPage categories={categories} data={data} />} />
+        <Route path='/auth' element={<AuthPage />} />
+      </Routes>
       <Footer />
     </>
   )
