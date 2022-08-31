@@ -1,4 +1,3 @@
-
 export interface ICategory {
     id: number
     name: string
@@ -7,7 +6,7 @@ export interface ICategory {
 }
 
 interface ISubCategory {
-    id: number
+    id: number | string
     title: string
     path: string
 }

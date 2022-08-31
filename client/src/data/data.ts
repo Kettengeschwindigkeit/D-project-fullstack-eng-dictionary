@@ -6,7 +6,7 @@ export const categories: ICategory[] = [
     name: "WORDS",
     path: "/words",
     subCategories: [
-      { id: 1, title: "Universal", path: "/universal" },
+      { id: "_w1u", title: "Universal", path: "/universal" },
       { id: 2, title: "About time", path: "/about_time" },
       { id: 3, title: "About space", path: "/about_sapce" },
       { id: 4, title: "About amount", path: "/about_amount" }
