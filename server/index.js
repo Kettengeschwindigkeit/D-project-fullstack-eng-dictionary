@@ -50,6 +50,9 @@ const data = JSON.stringify([
 ])
 
 app.use(cors())
+app.use(express.json())
+
+app.use('/api/auth', require('./routes/auth'))
 
 app.get('/', (req, res) => {
     res.send(data)
@@ -57,7 +60,7 @@ app.get('/', (req, res) => {
 
 async function start() {
     try {
-        await mongoose.connect('mongodb+srv://Kettengeschwindigkeit:1488@cluster0.wvgxwjm.mongodb.net/eng-dictionary?retryWrites=true&w=majority')
+        await mongoose.connect('mongodb://localhost:27017/eng-dictionary')
         app.listen(5000, () => console.log('Server has been started...'))
     } catch (error) {
         console.log(error)
