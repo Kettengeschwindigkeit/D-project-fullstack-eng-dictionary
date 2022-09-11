@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import axios from 'axios';
-import './App.css';
 import { categories } from './data/data';
-import { AuthPage } from './pages/AuthPage';
+import { LoginPage } from './pages/LoginPage';
 import { MainPage } from './pages/MainPage';
+import { RegisterPage } from './pages/RegisterPage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import './App.css';
 
 function App() {
   const [data, setData] = useState([])
@@ -25,7 +26,8 @@ function App() {
       <Header />
       <Routes>
         <Route path='/*' element={<MainPage categories={categories} data={data} />} />
-        <Route path='/auth' element={<AuthPage />} />
+        <Route path='register' element={<RegisterPage />} />
+        <Route path='login' element={<LoginPage />} />
       </Routes>
       <Footer />
     </>
