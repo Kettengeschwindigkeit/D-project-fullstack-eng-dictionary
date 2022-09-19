@@ -97,6 +97,10 @@ export const getMe = async (req, res) => {
             { expiresIn: '30d' }
         )
 
+        res.json({
+            user,
+            token,
+        })
         
     } catch (error) {
         res.json({ message: "No access!" })

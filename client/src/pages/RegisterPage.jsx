@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import { registerUser } from "../redux/features/auth/authSlice"
+import { checkIsAuth, registerUser } from "../redux/features/auth/authSlice"
 
 export function RegisterPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
     const { status } = useSelector((state) => state.auth)
 
     const dispatch = useDispatch()
-    console.log(status)
+    const isAuth = useSelector(checkIsAuth)
+    const navigate = useNavigate()
+
     const handleSubmit = () => {
         try {
             dispatch(registerUser({ email, password }))
@@ -25,7 +28,10 @@ export function RegisterPage() {
         if (status) {
             toast(status)
         }
-    }, [status])
+        if (isAuth) {
+            navigate("/")
+        }
+    }, [status, isAuth, navigate])
 
     return (
         <form className="w-1/4 h-60 mx-auto mt-40" onSubmit={e => e.preventDefault()}>
