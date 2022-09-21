@@ -1,15 +1,22 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { createCategory } from "../redux/features/category/categorySlice"
 
 export const AddCategoryPage = () => {
     const [title, setTitle] = useState("")
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const clearFormHandler = () => {
+        setTitle("")
+    }
 
     const submitHandler = () => {
         try {
             dispatch(createCategory({ title }))
+            navigate("/")
         } catch (error) {
             console.log(error)
         }
@@ -32,7 +39,10 @@ export const AddCategoryPage = () => {
                 >
                     Add
                 </button>
-                <button className="flex justify-center items-center px-4 py-2 rounded text-sm bg-red-400 border border-gray-500">
+                <button
+                    className="flex justify-center items-center px-4 py-2 rounded text-sm bg-red-400 border border-gray-500"
+                    onClick={clearFormHandler}
+                >
                     Cancel
                 </button>
             </div>
