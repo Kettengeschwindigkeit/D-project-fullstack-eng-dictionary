@@ -2,6 +2,7 @@ import User from "../models/User.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
+// Register
 export const register = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -42,9 +43,11 @@ export const register = async (req, res) => {
     }
 }
 
+// Login
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body
+
         const user = await User.findOne({ email })
 
         if (!user) {
@@ -60,8 +63,6 @@ export const login = async (req, res) => {
                 message: "Wrong password"
             })
         }
-
-        console.log(process.env.JWT_SECRET)
 
         const token = jwt.sign(
             {
@@ -79,6 +80,7 @@ export const login = async (req, res) => {
     }
 }
 
+// Get Me
 export const getMe = async (req, res) => {
     try {
         const user = await User.findById(req.userId)

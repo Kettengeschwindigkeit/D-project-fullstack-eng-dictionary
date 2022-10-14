@@ -1,6 +1,9 @@
 import mongoose from 'mongoose'
 
 const CategorySchema = new mongoose.Schema({
+    username: { 
+        type: String 
+    },
     title: { 
         type: String, 
         required: true

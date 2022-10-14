@@ -1,22 +1,25 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { createCategory } from "../redux/features/category/categorySlice"
+import { useNavigate, useParams } from "react-router-dom"
+import { createSubCategory } from "../redux/features/subCategory/subCategorySlice"
 
-export const AddCategoryPage = () => {
+export const AddSubCategoryPage = () => {
     const [title, setTitle] = useState("")
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const params = useParams()
+    console.log(params)
 
     const clearFormHandler = () => {
         setTitle("")
-        navigate("/")
     }
 
-    const submitHandler = () => {
+    const handleSubmit = () => {
         try {
-            dispatch(createCategory({ title }))
+            const categoryId = params.id
+            dispatch(createSubCategory({ categoryId, title }))
+            setTitle("")
             navigate("/")
         } catch (error) {
             console.log(error)
@@ -25,7 +28,7 @@ export const AddCategoryPage = () => {
 
     return (
         <form className="w-1/3 mx-auto py-10" onSubmit={e => e.preventDefault()}>
-            <label className="text-xs text-gray-600">Category title:
+            <label className="text-xs text-gray-600">Subcategory title:
                 <input
                     type="text"
                     className="w-full mt-1 py-1 px-2 border border-gray-400 text-xs text-black bg-gray-300 rounded outline-none"
@@ -36,7 +39,7 @@ export const AddCategoryPage = () => {
             <div className="flex gap-8 items-center justify-center mt-4">
                 <button
                     className="flex justify-center items-center px-4 py-2 rounded text-sm bg-gray-400 border border-gray-500"
-                    onClick={submitHandler}
+                    onClick={handleSubmit}
                 >
                     Add
                 </button>

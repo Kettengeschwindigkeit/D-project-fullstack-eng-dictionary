@@ -5,15 +5,21 @@ import cors from "cors"
 
 import authRoute from "./routes/auth.js"
 import categoryRoute from "./routes/categories.js"
+import subCategoryRoute from "./routes/subCategories.js"
+import itemsRoute from "./routes/items.js"
 
 const app = express()
 dotenv.config()
 
+// Middleware
 app.use(cors())
 app.use(express.json())
 
+// Routes
 app.use('/api/auth', authRoute)
 app.use('/api/categories', categoryRoute)
+app.use('/api/subCategories', subCategoryRoute)
+app.use('/api/items', itemsRoute)
 
 async function start() {
     try {

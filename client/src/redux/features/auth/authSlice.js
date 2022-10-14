@@ -60,6 +60,7 @@ export const authSlice = createSlice({
         }
     },
     extraReducers: {
+        // Register user
         [registerUser.pending]: (state) => {
             state.isLoading = true
             state.status = null
@@ -70,10 +71,11 @@ export const authSlice = createSlice({
             state.user = action.payload.user
             state.token = action.payload.token
         },
-        [registerUser.rejectWithValue]: (state, action) => {
+        [registerUser.rejected]: (state, action) => {
             state.isLoading = false
             state.status = action.payload.message
         },
+        // Login User
         [loginUser.pending]: (state) => {
             state.isLoading = true
             state.status = null
@@ -84,21 +86,22 @@ export const authSlice = createSlice({
             state.user = action.payload.user
             state.token = action.payload.token
         },
-        [loginUser.rejectWithValue]: (state, action) => {
+        [loginUser.rejected]: (state, action) => {
             state.isLoading = false
             state.status = action.payload.message
         },
+        // Get Me
         [getMe.pending]: (state) => {
             state.isLoading = true
             state.status = null
         },
         [getMe.fulfilled]: (state, action) => {
             state.isLoading = false
-            state.status = null
+            state.status = action.payload.message
             state.user = action.payload?.user
             state.token = action.payload?.token
         },
-        [getMe.rejectWithValue]: (state, action) => {
+        [getMe.rejected]: (state, action) => {
             state.isLoading = false
             state.status = action.payload.message
         },
