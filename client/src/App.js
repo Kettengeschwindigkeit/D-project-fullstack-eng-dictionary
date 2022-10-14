@@ -2,9 +2,8 @@ import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { ToastContainer } from "react-toastify"
 import { Header } from "./components/Header"
-import { Navbar } from "./components/Navbar"
 import { Footer } from "./components/Footer"
-import { MainPage } from "./pages/MainPage"
+import { MainContent } from "./components/MainContent"
 import "react-toastify/dist/ReactToastify.css"
 import { getMe } from "./redux/features/auth/authSlice"
 
@@ -18,7 +17,7 @@ function App() {
   return (
     <>
       <Header />
-
+      <MainContent />
       <ToastContainer position="bottom-right" />
       <Footer />
     </>
