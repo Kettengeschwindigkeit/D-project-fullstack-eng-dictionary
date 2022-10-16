@@ -6,6 +6,7 @@ const initialState = {
     isLoading: false
 }
 
+// Create SubCategory
 export const createSubCategory = createAsyncThunk(
     "subCategory/createSubCategory",
     async ({ categoryId, title }) => {
@@ -15,7 +16,20 @@ export const createSubCategory = createAsyncThunk(
         } catch (error) {
             console.log(error)
         }
-    }    
+    }
+)
+
+// Get All SubCategories
+export const getAllSubCategories = createAsyncThunk(
+    "subCategories/getAllSubCategories",
+    async () => {
+        try {
+            const { data } = await axios.get("/subCategories")
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
 )
 
 export const getSubCategories = createAsyncThunk(
@@ -44,6 +58,17 @@ export const subCategorySlice = createSlice({
             state.subCategories.push(action.payload)
         },
         [createSubCategory.rejected]: (state) => {
+            state.isLoading = false
+        },
+        // Get All SubCategories
+        [getAllSubCategories.pending]: (state) => {
+            state.isLoading = true
+        },
+        [getAllSubCategories.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.subCategories = action.payload
+        },
+        [getAllSubCategories.rejected]: (state) => {
             state.isLoading = false
         },
         // Get SubCategories

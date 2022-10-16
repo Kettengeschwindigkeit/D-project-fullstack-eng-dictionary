@@ -11,7 +11,7 @@ export const createSubCategory = async (req, res) => {
             return res.json({ message: "Title is empty" })
         }
 
-        const newSubCategory = new SubCategory({ title })
+        const newSubCategory = new SubCategory({ title, category: categoryId })
         await newSubCategory.save()
 
         try {
@@ -22,6 +22,16 @@ export const createSubCategory = async (req, res) => {
             console.log(error)
         }
         res.json(newSubCategory)
+    } catch (error) {
+        res.json({ message: "Something went wrong..." })
+    }
+}
+
+// Get All SubCategories
+export const getAllSubCategories = async (req, res) => {
+    try {
+        const subCategories = await SubCategory.find()
+        res.json({ subCategories })
     } catch (error) {
         res.json({ message: "Something went wrong..." })
     }

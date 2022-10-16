@@ -1,17 +1,19 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"
 import { checkIsAuth, logout } from "../redux/features/auth/authSlice"
 
 export function Header() {
     const dispatch = useDispatch()
     const isAuth = useSelector(checkIsAuth)
+    const navigate = useNavigate()
 
     const logoutHandler = () => {
         dispatch(logout())
-        window.localStorage.removeItem("token")
+        navigate("/")
         toast("Come again!")
+        window.localStorage.removeItem("token")
     }
 
     return (

@@ -10,25 +10,16 @@ export const CategoryPage = () => {
     const [category, setCategory] = useState(null)
 
     const { subCategories } = useSelector((state) => state.subCategory)
-
+    console.log(subCategories)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
+    console.log(params)
 
     const fetchCategory = useCallback(async () => {
         const { data } = await axios.get(`/categories/${params.id}`)
         setCategory(data)
     }, [params.id])
-
-    const fetchSubCategories = useCallback(async () => {
-        try {
-            dispatch(getSubCategories(params.id))
-        } catch (error) {
-            console.log(error)
-        }
-    }, [params.id, dispatch])
-
-    console.log(params)
 
     const removeCategoryHandler = () => {
         try {
@@ -44,10 +35,6 @@ export const CategoryPage = () => {
         fetchCategory()
     }, [fetchCategory])
 
-    useEffect(() => {
-        fetchSubCategories()
-    }, [fetchSubCategories])
-
     return (
         <div>
             <div>
@@ -57,13 +44,15 @@ export const CategoryPage = () => {
                 <button onClick={removeCategoryHandler}>Delete</button>
             </div>
             <div>
-                <Link to={`/${params.id}/edit`}>
+                <Link to="edit">
                     <button>Update</button>
                 </Link>
             </div>
-            <ul>
-                {subCategories?.map(sub => <li><Link to={`/${params.id}/${sub._id}`} key={sub._id}>{sub.title}</Link></li>)}
-            </ul>
+            <div>
+                <Link to="new">
+                    <button>Add New SubCategory</button>
+                </Link>
+            </div>
         </div>
     )
 }

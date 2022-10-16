@@ -24,7 +24,11 @@ export const SubCategoryPage = () => {
     return (
         <>
             <div>SUB</div>
-            <button>Add</button>
+            <div>
+                <Link to="new">
+                    <button>Add</button>
+                </Link>
+            </div>
             <ul>
                 {items?.map(item => <li key={item._id}>{item.title} {item.translate}</li>)}
             </ul>

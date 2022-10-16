@@ -43,14 +43,12 @@ export const getCategoryById = async (req, res) => {
     }
 }
 
-// Get My Categories
+// Get My Categories & SubCategories
 export const getMyCategories = async (req, res) => {
     try {
         const user = await User.findById(req.userId)
         const list = await Promise.all(
-            user.categories.map((category) => {
-                return Category.findById(category._id)
-            })
+            user.categories.map((category) => Category.findById(category._id).populate('subCategories'))
         )
         res.json(list)
     } catch (error) {
