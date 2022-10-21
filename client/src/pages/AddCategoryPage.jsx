@@ -3,7 +3,9 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { createCategory } from "../redux/features/category/categorySlice"
 
-export const AddCategoryPage = () => {
+export const AddCategoryPage = ({ setModalActive }) => {
+    setModalActive(true)
+
     const [title, setTitle] = useState("")
 
     const dispatch = useDispatch()
@@ -12,19 +14,21 @@ export const AddCategoryPage = () => {
     const clearFormHandler = () => {
         setTitle("")
         navigate("/")
+        setModalActive(false)
     }
 
     const submitHandler = () => {
         try {
             dispatch(createCategory({ title }))
             navigate("/")
+            setModalActive(false)
         } catch (error) {
             console.log(error)
         }
     }
 
     return (
-        <form className="w-1/3 mx-auto py-10" onSubmit={e => e.preventDefault()}>
+        <form className="mx-auto py-10" onSubmit={e => e.preventDefault()}>
             <label className="text-xs text-gray-600 font-bold">Category title:
                 <input
                     type="text"

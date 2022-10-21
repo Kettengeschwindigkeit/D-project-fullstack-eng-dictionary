@@ -44,7 +44,7 @@ export const SubCategoryPage = () => {
                 </ul>
                 <div className="m-2 text-xs text-gray-600 font-bold">SUB</div>
             </div>
-            <ul>
+            <ul >
                 {sortedItems.map(item => <Item key={item._id} item={item} />)}
             </ul>
         </div>

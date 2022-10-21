@@ -17,7 +17,6 @@ export const MainPage = () => {
             <Route path=':id' element={<CategoryPage />} />
             <Route path='sub/:id' element={<SubCategoryPage />} />
             <Route path=':id/edit' element={<EditCategoryPage />} />
-            <Route path="new" element={<AddCategoryPage />} />
             <Route path=":id/new" element={<AddSubCategoryPage />} />
             <Route path=":id/:id/new" element={<AddItemPage />} />
             <Route path="register" element={<RegisterPage />} />
