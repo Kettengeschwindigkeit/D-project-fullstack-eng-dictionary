@@ -1,17 +1,36 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { getAllSubCategories } from "../redux/features/subCategory/subCategorySlice"
+import axiosInstance from "../utils/axios"
 import { CategoryItem } from "./CategoryItem"
-import { useParams } from "react-router-dom"
 
-export function Navbar({ categories }) {
-    const params = useParams()
-    console.log(params)
+export function Navbar() {
+    const [categories, setCategories] = useState([])
+
+    const dispatch = useDispatch()
+
+    const fetchMyCategories = async () => {
+        try {
+            const { data } = await axiosInstance.get('/categories/user/me')
+            setCategories(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchMyCategories()
+    }, [])
+
+    useEffect(() => {
+        dispatch(getAllSubCategories())
+    }, [dispatch])
 
     return (
-        <div>
-            <ul className="w-[200px] bg-gray-300 top-0 bottom-0">
-                {categories?.map(category => <li key={category._id}><Link to={category._id}><CategoryItem category={category} /></Link></li>)}
+        <>
+            <ul className="w-[200px] h-screen bg-gray-300">
+                {categories?.map(category => <CategoryItem key={category._id} category={category} />)}
             </ul>
-        </div>
+        </>
     )
 }

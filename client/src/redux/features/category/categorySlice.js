@@ -6,6 +6,7 @@ const initialState = {
     isLoading: false
 }
 
+// Create Category
 export const createCategory = createAsyncThunk(
     "category/createCategory",
     async (params) => {
@@ -39,6 +40,7 @@ export const removeCategory = createAsyncThunk('/categories/removeCategory', asy
     }
 })
 
+// Update Category
 export const updateCategory = createAsyncThunk('/categories/updateCategory', async (title, id) => {
     try {
         const { data } = await axios.put(`/categories/${id}`, title)

@@ -17,8 +17,6 @@ export function RegisterPage() {
     const handleSubmit = () => {
         try {
             dispatch(registerUser({ email, password }))
-            setEmail("")
-            setPassword("")
         } catch (error) {
             console.log(error)
         }
@@ -35,32 +33,36 @@ export function RegisterPage() {
 
     return (
         <form className="w-1/4 h-60 mx-auto mt-40" onSubmit={e => e.preventDefault()}>
-            <h1 className="text-lg text-center text-gray-600">Registration</h1>
-            <label className="text-xs text-gray-600">Email:
-                <input
-                    type="text"
-                    className="w-full mt-1 py-1 px-2 border border-gray-400 text-xs text-black bg-gray-300 rounded outline-none"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </label>
-            <label className="text-xs text-gray-600">Password:
-                <input
-                    type="password"
-                    className="w-full mt-1 py-1 px-2 border border-gray-400 text-xs text-black bg-gray-300 rounded outline-none"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </label>
+            <h1 className="text-lg text-center text-gray-600 font-bold drop-shadow">Registration</h1>
+            <div className="mb-4">
+                <label className="text-xs text-gray-600 font-bold">Email:
+                    <input
+                        type="text"
+                        className="input"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </label>
+            </div>
+            <div>
+                <label className="text-xs text-gray-600 font-bold">Password:
+                    <input
+                        type="password"
+                        className="input"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </label>
+            </div>
             <div className="flex gap-8 justify-center mt-4">
                 <button
                     type="submit"
-                    className="flex justify-center items-center px-4 py-2 rounded text-sm bg-gray-400 border border-gray-500"
+                    className="btn"
                     onClick={handleSubmit}
                 >
                     Sign Up
                 </button>
-                <Link to="/login" className="flex justify-center items-center text-sm text-gray-600">Already have account?</Link>
+                <Link to="/login" className="flex justify-center items-center text-sm text-gray-600 font-bold drop-shadow hover:text-black focus:outline-none">Already have account?</Link>
             </div>
         </form>
     )

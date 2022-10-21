@@ -97,7 +97,7 @@ export const authSlice = createSlice({
         },
         [getMe.fulfilled]: (state, action) => {
             state.isLoading = false
-            state.status = action.payload.message
+            state.status = null
             state.user = action.payload?.user
             state.token = action.payload?.token
         },
