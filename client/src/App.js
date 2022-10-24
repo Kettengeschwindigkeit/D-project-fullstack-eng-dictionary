@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { ToastContainer } from "react-toastify"
 import { Header } from "./components/Header"
@@ -7,6 +7,8 @@ import { MainContent } from "./components/MainContent"
 import "react-toastify/dist/ReactToastify.css"
 import { getMe } from "./redux/features/auth/authSlice"
 import { getMyCategories } from "./redux/features/category/categorySlice"
+
+import LoadingBar from 'react-top-loading-bar'
 
 function App() {
   const dispatch = useDispatch()

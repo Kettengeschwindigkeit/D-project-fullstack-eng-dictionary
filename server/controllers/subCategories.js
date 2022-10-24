@@ -70,6 +70,8 @@ export const removeSubCategory = async (req, res) => {
 
         if (!subCategory) return res.json({ message: 'This subCategory doesn\'t exist' })
 
+        await Item.deleteMany({ subCategory: req.params.id })
+
         await Category.findByIdAndUpdate(categoryId, {
             $pull: { subCategories: req.params.id }
         })

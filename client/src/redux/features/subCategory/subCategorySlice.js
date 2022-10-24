@@ -87,8 +87,9 @@ export const subCategorySlice = createSlice({
         },
         [getSubCategories.fulfilled]: (state, action) => {
             state.loading = false
-            const index = state.subCategories.findIndex((subCategory) => subCategory._id === action.payload._id)
-            state.subCategories[index] = action.payload
+            state.subCategories = action.payload.list
+            // const index = state.subCategories.findIndex((subCategory) => subCategory._id === action.payload._id)
+            // state.subCategories[index] = action.payload
         },
         [getSubCategories.rejected]: (state) => {
             state.isLoading = false
