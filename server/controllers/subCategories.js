@@ -37,6 +37,19 @@ export const getAllSubCategories = async (req, res) => {
     }
 }
 
+// Get SubCategories
+export const getSubCategories = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.id)
+        const list = await Promise.all(
+            category.subCategories.map((subCategory) => SubCategory.findById(subCategory._id))
+        )
+        res.json(list)
+    } catch (error) {
+        res.json({ message: "Something went wrong..." })
+    }
+}
+
 // Get Items
 export const getItems = async (req, res) => {
     try {
@@ -45,5 +58,23 @@ export const getItems = async (req, res) => {
         res.json(list)
     } catch (error) {
         res.json({ message: "Something went wrong..." })
+    }
+}
+
+// Remove SubCategory
+export const removeSubCategory = async (req, res) => {
+    try {
+        const subCategory = await SubCategory.findByIdAndDelete(req.params.id)
+        const category = await Category.findById(subCategory.category)
+        const categoryId = (category._id).toString()
+
+        if (!subCategory) return res.json({ message: 'This subCategory doesn\'t exist' })
+
+        await Category.findByIdAndUpdate(categoryId, {
+            $pull: { subCategories: req.params.id }
+        })
+        res.json({ subCategory, message: 'subCategory was deleted' })
+    } catch (error) {
+        res.json({ message: "Something went wrong..."})
     }
 }

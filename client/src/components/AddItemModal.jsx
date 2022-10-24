@@ -1,27 +1,27 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { createCategory } from "../redux/features/category/categorySlice"
+import { useParams } from "react-router-dom"
+import { createItem } from "../redux/features/item/itemSlice"
 
-export const AddCategoryPage = ({ setModalActive }) => {
-    setModalActive(true)
-
+export const AddItemModal = ({ setShowModal }) => {
     const [title, setTitle] = useState("")
+    const [translate, setTranslate] = useState("")
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const params = useParams()
+    console.log(params)
 
     const clearFormHandler = () => {
         setTitle("")
-        navigate("/")
-        setModalActive(false)
+        setShowModal(false)
     }
 
-    const submitHandler = () => {
+    const handleSubmit = () => {
         try {
-            dispatch(createCategory({ title }))
-            navigate("/")
-            setModalActive(false)
+            const subCategoryId = params.id
+            dispatch(createItem({ subCategoryId, title, translate }))
+            setTitle("")
+            setShowModal(false)
         } catch (error) {
             console.log(error)
         }
@@ -29,7 +29,7 @@ export const AddCategoryPage = ({ setModalActive }) => {
 
     return (
         <form className="mx-auto py-10" onSubmit={e => e.preventDefault()}>
-            <label className="text-xs text-gray-600 font-bold">Category title:
+            <label className="text-xs text-gray-600 font-bold">Title:
                 <input
                     type="text"
                     className="input"
@@ -37,10 +37,18 @@ export const AddCategoryPage = ({ setModalActive }) => {
                     onChange={e => setTitle(e.target.value)}
                 />
             </label>
+            <label className="text-xs text-gray-600 font-bold">Translate:
+                <input
+                    type="text"
+                    className="input"
+                    value={translate}
+                    onChange={e => setTranslate(e.target.value)}
+                />
+            </label>
             <div className="flex gap-8 items-center justify-center mt-4">
                 <button
                     className="btn"
-                    onClick={submitHandler}
+                    onClick={handleSubmit}
                 >
                     Add
                 </button>

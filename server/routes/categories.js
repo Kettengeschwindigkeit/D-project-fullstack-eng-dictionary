@@ -16,7 +16,7 @@ router.get('/', getCategories)
 // http://localhost:5000/api/categories/:id
 router.get('/:id', getCategoryById)
 
-// Get My Categories
+// Get My Categories & SubCategories
 // http://localhost:5000/api/categories/user/me
 router.get('/user/me', checkAuth, getMyCategories)
 

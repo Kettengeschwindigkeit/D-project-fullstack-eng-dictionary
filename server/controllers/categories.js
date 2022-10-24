@@ -2,7 +2,7 @@ import User from "../models/User.js"
 import Category from "../models/Category.js"
 import SubCategory from "../models/SubCategory.js"
 
-// Create Category
+// Create New Category
 export const createCategory = async (req, res) => {
     try {
         const { title } = req.body
@@ -17,7 +17,7 @@ export const createCategory = async (req, res) => {
             $push: { categories: newCategory }
         })
 
-        return res.json(newCategory)
+        res.json({ newCategory, message: "Category was created" })
     } catch (error) {
         console.log(error)
     }
@@ -37,7 +37,8 @@ export const getCategories = async (req, res) => {
 export const getCategoryById = async (req, res) => {
     try {
         const category = await Category.findById(req.params.id)
-        res.json(category)
+        const list = await Promise.all(category.subCategories.map(subCategory => SubCategory.findById(subCategory)))
+        res.json({ list, category })
     } catch (error) {
         res.json({ message: "Something went wrong..."})
     }
@@ -48,7 +49,7 @@ export const getMyCategories = async (req, res) => {
     try {
         const user = await User.findById(req.userId)
         const list = await Promise.all(
-            user.categories.map((category) => Category.findById(category._id).populate('subCategories'))
+            user.categories.map((category) => Category.findById(category._id).populate('subCategories'))              
         )
         res.json(list)
     } catch (error) {
@@ -56,16 +57,30 @@ export const getMyCategories = async (req, res) => {
     }
 }
 
+// // Get My Categories & SubCategories
+// export const getMyCategories = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.userId)
+//         const list = await Promise.all(
+//             user.categories.map((category) => Category.findById(category._id))              
+//         )
+//         res.json(list)
+//     } catch (error) {
+//         res.json({ message: "Something went wrong..."})
+//     }
+// }
+
 // Remove Category
 export const removeCategory = async (req, res) => {
     try {
         const category = await Category.findByIdAndDelete(req.params.id)
+        
         if (!category) return res.json({ message: 'This category doesn\'t exist' })
-
+        
         await User.findByIdAndUpdate(req.userId, {
             $pull: { categories: req.params.id }
         })
-        res.json({ message: 'Category was deleted' })
+        res.json({ category, message: 'Category was deleted' })
     } catch (error) {
         res.json({ message: "Something went wrong..."})
     }
@@ -75,8 +90,9 @@ export const removeCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
     try {
         const { title, id } = req.body
+        console.log(title, id)
         const category = await Category.findById(id)
-
+        console.log(category)
         category.title = title
 
         await category.save()

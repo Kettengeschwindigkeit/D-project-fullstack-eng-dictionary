@@ -3,7 +3,8 @@ import axios from "../../../utils/axios"
 
 const initialState = {
     items: [],
-    isLoading: false
+    isLoading: false,
+    status: null
 }
 
 export const createItem = createAsyncThunk(
@@ -15,7 +16,7 @@ export const createItem = createAsyncThunk(
         } catch (error) {
             console.log(error)
         }
-    }    
+    }
 )
 
 export const getItems = createAsyncThunk(
@@ -29,6 +30,27 @@ export const getItems = createAsyncThunk(
         }
     }
 )
+
+// Remove Item
+export const removeItem = createAsyncThunk('/items/removeItem', async (id, subCategoryId) => {
+    try {
+        const { data } = await axios.delete(`/items/${id}`, id)
+        console.log(data)
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+// Update Item
+export const updateItem = createAsyncThunk('/items/updateItem', async (newData) => {
+    try {
+        const { data } = await axios.put(`/items`, newData)
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 export const itemSlice = createSlice({
     name: "item",
@@ -55,6 +77,32 @@ export const itemSlice = createSlice({
             state.items = action.payload
         },
         [getItems.rejected]: (state) => {
+            state.isLoading = false
+        },
+        // Remove Item
+        [removeItem.pending]: (state) => {
+            state.isLoading = true
+            state.status = "Loading..."
+        },
+        [removeItem.fulfilled]: (state, action) => {
+            state.isloading = false
+            state.items = state.items.filter((item) => item._id !== action.payload.item._id)
+            state.status = action.payload.message
+        },
+        [removeItem.rejected]: (state) => {
+            state.isLoading = false
+        },
+        // Update Item
+        [updateItem.pending]: (state) => {
+            state.isLoading = true
+            state.status = "Loading..."
+        },
+        [updateItem.fulfilled]: (state, action) => {
+            state.loading = false
+            const index = state.items.findIndex((item) => item._id === action.payload.item._id)
+            state.items[index] = action.payload.item
+        },
+        [updateItem.rejected]: (state) => {
             state.isLoading = false
         },
     }

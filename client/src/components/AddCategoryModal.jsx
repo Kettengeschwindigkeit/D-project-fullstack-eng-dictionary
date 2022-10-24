@@ -1,42 +1,32 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom"
-import { updateCategory } from "../redux/features/category/categorySlice"
-import axios from "../utils/axios"
+import { useNavigate } from "react-router-dom"
+import { createCategory } from "../redux/features/category/categorySlice"
 
-export const EditCategoryPage = () => {
+export const AddCategoryModal = ({ setShowModal }) => {
     const [title, setTitle] = useState("")
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const params = useParams()
 
     const clearFormHandler = () => {
         setTitle("")
-        navigate(`/${params.id}`)
+        navigate("/")
+        setShowModal(false)
     }
-
-    const fetchCategory = useCallback(async () => {
-        const { data } = await axios.get(`/categories/${params.id}`)
-        setTitle(data.title)
-    }, [params.id])
 
     const submitHandler = () => {
         try {
-            const id = params.id
-            dispatch(updateCategory({ title, id }))
+            dispatch(createCategory({ title }))
             navigate("/")
+            setShowModal(false)
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(() => {
-        fetchCategory()
-    }, [fetchCategory])
-
     return (
-        <form className="w-1/3 mx-auto py-10" onSubmit={e => e.preventDefault()}>
+        <form className="mx-auto py-10" onSubmit={e => e.preventDefault()}>
             <label className="text-xs text-gray-600 font-bold">Category title:
                 <input
                     type="text"
@@ -50,7 +40,7 @@ export const EditCategoryPage = () => {
                     className="btn"
                     onClick={submitHandler}
                 >
-                    Update
+                    Add
                 </button>
                 <button
                     className="btn-cancel"

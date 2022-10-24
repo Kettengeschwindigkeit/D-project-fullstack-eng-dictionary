@@ -60,7 +60,7 @@ export function Header() {
             </div>}
             {isAuth
                 ? <button className="m-4 btn" onClick={logoutHandler}>Sign Out</button>
-                : <button className="m-4 btn"><Link to="/login">Sign In</Link></button>
+                : <Link to="/login"><button className="m-4 btn">Sign In</button></Link>
             }
         </nav>
     )

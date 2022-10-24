@@ -35,3 +35,38 @@ export const getItems = async (req, res) => {
         res.json({ message: "Something went wrong..." })
     }
 }
+
+// Remove Item
+export const removeItem = async (req, res) => {
+    try {
+        const item = await Item.findByIdAndDelete(req.params.id)
+        const subCategory = await SubCategory.findById(item.subCategory)
+        const subCategoryId = (subCategory._id).toString()
+
+        if (!item) return res.json({ message: 'This item doesn\'t exist' })
+
+        await SubCategory.findByIdAndUpdate(subCategoryId, {
+            $pull: { items: req.params.id }
+        })
+        res.json({ item, message: 'Item was deleted' })
+    } catch (error) {
+        res.json({ message: "Something went wrong..."})
+    }
+}
+
+// Update Item
+export const updateItem = async (req, res) => {
+    try {
+        const { newTitle, newTranslate, id } = req.body
+        const item = await Item.findById(id)
+
+        item.title = newTitle
+        item.translate = newTranslate
+
+        await item.save()
+
+        res.json({ item, message: "Item was updated" })
+    } catch (error) {
+        res.json({ message: "Something went wrong..."})
+    }
+}

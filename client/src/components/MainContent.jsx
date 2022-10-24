@@ -8,11 +8,11 @@ export const MainContent = () => {
     const isAuth = useSelector(checkIsAuth)
 
     return (
-        <div className="flex h-screen">
+        <div className="flex">
             <div>
                 {isAuth && <Navbar />}
             </div>
-            <div className="w-full">
+            <div className="w-full h-screen">
                 <MainPage />
             </div>
         </div>

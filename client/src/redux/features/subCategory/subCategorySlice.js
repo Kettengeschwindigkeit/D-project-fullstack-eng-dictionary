@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "../../../utils/axios"
 
 const initialState = {
-    subCategories: [],
-    isLoading: false
+    isLoading: false,
+    status: null,
+    subCategories: []
 }
 
 // Create SubCategory
@@ -32,17 +33,26 @@ export const getAllSubCategories = createAsyncThunk(
     }
 )
 
-export const getSubCategories = createAsyncThunk(
-    "subCategory/getSubCategories",
-    async (categoryId) => {
-        try {
-            const { data } = await axios.get(`categories/subCategories/${categoryId}`)
-            return data
-        } catch (error) {
-            console.log(error)
-        }
+// Get SubCategories
+export const getSubCategories = createAsyncThunk("subCategories/getSubCategories", async (id) => {
+    try {
+        const { data } = await axios.get(`categories/${id}`)
+        return data
+    } catch (error) {
+        console.log(error)
     }
-)
+})
+
+// Remove SubCategory
+export const removeSubCategory = createAsyncThunk('/subCategories/removeSubCategory', async (id) => {
+    try {
+        const { data } = await axios.delete(`/subCategories/${id}`, id)
+        console.log(data)
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 export const subCategorySlice = createSlice({
     name: "subCategory",
@@ -76,10 +86,24 @@ export const subCategorySlice = createSlice({
             state.isLoading = true
         },
         [getSubCategories.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.subCategories = action.payload
+            state.loading = false
+            const index = state.subCategories.findIndex((subCategory) => subCategory._id === action.payload._id)
+            state.subCategories[index] = action.payload
         },
         [getSubCategories.rejected]: (state) => {
+            state.isLoading = false
+        },
+        // Remove SubCategory
+        [removeSubCategory.pending]: (state) => {
+            state.isLoading = true
+            state.status = "Loading..."
+        },
+        [removeSubCategory.fulfilled]: (state, action) => {
+            state.isloading = false
+            state.subCategories = state.subCategories.filter((subCategory) => subCategory._id !== action.payload.subCategory._id)
+            state.status = action.payload.message
+        },
+        [removeSubCategory.rejected]: (state) => {
             state.isLoading = false
         },
     }
