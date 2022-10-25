@@ -8,35 +8,31 @@ const initialState = {
     isLoading: false
 }
 
-export const registerUser = createAsyncThunk(
-    "auth/registerUser",
-    async ({ email, password }) => {
-        try {
-            const { data } = await axios.post("/auth/register", { email, password })
-            if (data.token) {
-                window.localStorage.setItem("token", data.token)
-            }
-            return data
-        } catch (error) {
-            console.log(error)
+// Register User
+export const registerUser = createAsyncThunk("auth/registerUser", async ({ email, password }) => {
+    try {
+        const { data } = await axios.post("/auth/register", { email, password })
+        if (data.token) {
+            window.localStorage.setItem("token", data.token)
         }
+        return data
+    } catch (error) {
+        console.log(error)
     }
-)
+})
 
-export const loginUser = createAsyncThunk(
-    "auth/loginUser",
-    async ({ email, password }) => {
-        try {
-            const { data } = await axios.post("/auth/login", { email, password })
-            if (data.token) {
-                window.localStorage.setItem("token", data.token)
-            }
-            return data
-        } catch (error) {
-            console.log(error)
+// Login User
+export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, password }) => {
+    try {
+        const { data } = await axios.post("/auth/login", { email, password })
+        if (data.token) {
+            window.localStorage.setItem("token", data.token)
         }
+        return data
+    } catch (error) {
+        console.log(error)
     }
-)
+})
 
 export const getMe = createAsyncThunk("auth/loginUser", async () => {
     try {

@@ -27,7 +27,7 @@ export const createCategory = async (req, res) => {
 // Get All Categories
 export const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find().sort('-createdAt')
+        const categories = await Category.find().sort('title')
         res.json({ categories })
     } catch (error) {
         res.json({ message: "Something went wrong..."})
